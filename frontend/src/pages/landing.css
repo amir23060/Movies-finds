@@ -1,0 +1,27 @@
+.movies-container{
+    display: flex;
+    flex-direction: column;
+}
+.movies-slide{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+.movies-card{
+    display: flex;
+    flex-direction: column;
+    background-color: brown;
+    padding: 10px 20px;
+    color: white;
+    height: 300px;
+}
+
+.movies-card img{
+    height: 250px;
+    width: 200px;
+
+}
+.icons{
+    font-size: 30px;
+}
