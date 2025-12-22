@@ -1,0 +1,36 @@
+.navbar-conatiner{
+    display: flex;
+    flex-direction: row;
+     padding: 20px;
+     gap: 30px;
+    position: fixed;
+    z-index: 10;
+    align-items: center;
+    justify-content: space-between;
+    
+}
+.leftSide{
+    
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    gap: 20px;
+}
+.rightSide{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.navLinks{
+    display: flex;
+    flex-direction: row;
+   gap: 30px;
+}
+.navLinks a{
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+}
+.navLinks a:hover{
+    text-decoration: underline;
+}

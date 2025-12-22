@@ -1,0 +1,11 @@
+.movieSlides{
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+}
+.serieSlides{
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+   
+}

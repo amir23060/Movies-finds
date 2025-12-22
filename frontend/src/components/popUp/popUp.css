@@ -1,0 +1,23 @@
+.pop{
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+   background-color: white;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   padding: 20px;
+ border-radius: 10px;
+ color: black;
+   z-index: 999;
+   animation: moveDown 1s ease-in-out forwards;
+}
+@keyframes moveDown{
+    from{
+        top: -100px;
+    }
+    to{
+        top: 20px;
+    }
+}

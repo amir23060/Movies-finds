@@ -1,0 +1,81 @@
+.movies-container{
+    display: flex;
+    flex-direction: column;
+ color:#eaebed ;
+    margin: 0;
+    gap: 45px;
+}
+.movies-container h1{
+    margin-left: 110px;
+}
+.movies-slide{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 30px;
+    height: 300px;
+    
+}
+.slides{
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    
+}
+.movie img{
+    height: 100%;
+    width: 100%;
+    border-radius: 10px;
+}
+
+.movie{
+    width: 280px;
+    height: 380px;
+    border-radius: 10px;
+    box-shadow: 0 0 8px black;
+    transition: transform 0.2s ease-in;
+    position: relative;
+      overflow: hidden;
+}
+.icons{
+    font-size: 40px;
+    color: white;
+    font-weight: bold;
+}
+.dropUp{
+    display: none;
+    flex-direction: row;
+   justify-content: space-between;
+   align-items: center;
+   padding: 10px 20px;
+   position: absolute;
+   width: 90%;
+ animation: dropdown 0.7s ease forwards ;
+   background-color: rgb(0, 0, 0,0.6);
+   bottom: 0;
+   left: 50%;
+   transform: translateX(-50%);
+}
+.dropUp div{
+    padding: 10px;
+    background-color: rgb(255, 255, 255,0.4);
+    border-radius: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.dropUp section{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+@keyframes dropdown{
+    from{
+        bottom: -50px;
+
+    }
+    to{
+        bottom: 0;
+    }
+}

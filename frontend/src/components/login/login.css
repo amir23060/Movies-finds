@@ -1,0 +1,72 @@
+.login-container,.register-container{
+   position: fixed;
+   height: 100%;
+   width: 100%;
+       background-color: rgb(0, 0, 0,0.3);
+       z-index: 6;
+       display: flex;
+       align-items: center;
+       justify-content: center;
+       
+}
+.login-form,.register-form{
+    background-color: red;
+    width: auto;
+    padding: 20px 20px;
+    display: flex;
+    flex-direction: column;
+    color: white;
+    align-items: center;
+    border-radius: 10px;
+    box-shadow: 0 0 10px red;
+    
+}
+.names{
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+.names div ,.email,.password{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-top: 20px;
+}
+.names input{
+    border: none;
+    border: 0.2px solid black;
+    width: 250px;
+    height: 30px;
+    border-radius: 10px;
+}
+.email input,.password input{
+     border: none;
+    border: 0.2px solid black;
+    height: 30px;
+    border-radius: 10px;
+    width: 520px;
+}
+.register-buttons,.login-buttons{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 50px;
+}
+.register-buttons p,.login-buttons p{
+    margin: 0;
+    font-size: 14px;
+    margin-top: 10px;
+}
+.login-buttons button,.register-buttons button{
+    width: 40%;
+    height: 40px;
+    border-radius: 10px;
+    font-size: 18px;
+    border: none;
+    background-color: lightgreen;
+    font-weight: bold;
+
+}
+.login-buttons button:hover,.register-buttons button:hover{
+    background-color: darkgreen;
+}
