@@ -1,49 +1,75 @@
-import { useParams } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
-import "./detail.css"
-import { getSerieDetails } from "../../pages/tv/api/serie-api";
+import { FaHeart, FaMinus, FaPlus } from "react-icons/fa";
+import { Like, LikedItems, Watch_list } from "../endPoints";
+import { PopUp } from "../popUp/popUp";
+import "./detail.css";
+import { getSerieDetails, getSimilarSeries } from "../../pages/tv/api/serie-api";
 import { Buttons } from "../../ui/button";
-export function SeriesDetail({id,onClose}){
-    const [movie,setMovies]= useState(null)
-    const detailRef=useRef(null)
-    useEffect(()=>{
-        getSerieDetails(id).then(setMovies)
 
-    },[])
+export function SeriesDetail({ id, onClose, liked =[], setLiked, watchlist=[], setWatchlist }) {
+  const [movie, setMovie] = useState(null);
+  const [text, setText] = useState("");
+  const userId = localStorage.getItem("userId");
+  const detailRef = useRef(null);
+
+
   useEffect(() => {
-  function handleClickOutside(e) {
-    if (detailRef.current && !detailRef.current.contains(e.target)) {
-      onClose();
-    }
-  }
+    getSerieDetails(id).then(setMovie);
+  }, [id]);
 
-  document.addEventListener("mousedown", handleClickOutside);
-  return () => document.removeEventListener("mousedown", handleClickOutside);
-}, []);
-    console.log(movie)
-    return(<div className="detail">
-    
-    {movie && <div className="detail-container"  ref={detailRef}>
-     
-        <div className="backdrop" >
-        <img src={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`} alt="" />
-        </div>
-        <div className="detail-texts">
+   useEffect(() => {
+    // Only call if setters exist
+    if (userId ) {
+      LikedItems(userId, setLiked, setWatchlist);
+    }
+  }, [userId]);
+
+  return (
+    <div className="detail" onMouseDown={(e) => e.stopPropagation()}>
+      {text && <PopUp text={text} />}
+      {movie && (
+        <div className="detail-container" ref={detailRef}>
+          <div className="close" onClick={onClose}>X</div>
+          <div className="backdrop">
+            <img src={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`} alt="" />
+            <div className="icons">
+              <div
+                style={{ color: liked.some((e) => e.id === movie.id) ? "red" : "" }}
+                onClick={async () => {
+                  await Like(movie, userId, setText);
+                  await LikedItems(userId, setLiked, setWatchlist);
+                }}
+              >
+                <FaHeart />
+              </div>
+              <div
+                onClick={async () => {
+                  await Watch_list(movie, userId, setText);
+                  await LikedItems(userId, setLiked, setWatchlist);
+                }}
+              >
+                {watchlist.some((e) => e.id === movie.id) ? <FaMinus /> : <FaPlus />}
+              </div>
+            </div>
+          </div>
+          <div className="detail-texts">
             <div id="title">{movie.name}</div>
-        <div className="detail-info">
-            <p>{movie.vote_average}</p>
-            <p>{new Date(movie.first_air_date).getFullYear()}</p>
-            <p>{movie.number_of_seasons} seasons</p>
-          <div id="genres"> 
-  {movie.genres?.map((genre) => (
-     <Buttons key={genre.id} color={"white"} backgroundColor={"black"} text={genre.name} fontSize={"14px"}></Buttons>
-  ))}
-</div>
+            <div className="detail-info">
+              <p>{movie.vote_average}</p>
+              <p>{new Date(movie.first_air_date).getFullYear()}</p>
+              <p>{movie.number_of_seasons} seasons</p>
+              <div id="genres">
+                {movie.genres?.map((genre) => (
+                  <Buttons key={genre.id} color="white" backgroundColor="black" text={genre.name} fontSize="14px" />
+                ))}
+              </div>
+            </div>
+            <p>{movie.overview}</p>
+          </div>
         </div>
-        <p>{movie.overview}</p>
-        </div>
-        </div>}
-    </div>)
+      )}
+    </div>
+  );
 }
 /*
 {adult: false, backdrop_path: '/ckPbbcJOcL43mJBrROTMrtOBIYK.jpg', created_by: Array(1), episode_run_time: Array(0), first_air_date: '2025-12-05', …}

@@ -33,7 +33,7 @@ console.log(userId)
     <div className="movies-container">
         <h1>{header}</h1>
     <div className="movies-slide"> 
-        <FaAngleLeft className="icons" onClick={()=>Previous(startIndex,setStartIndex)}/>
+        <FaAngleLeft className="Icons" onClick={()=>Previous(startIndex,setStartIndex)}/>
          <div className="slides"> 
             {slicedMovies?.map((movie)=>(
                 <div className="movie"  key={movie.id} onMouseEnter={e=>ShowDrop(e)} onMouseLeave={e=>HideDrop(e)}>
@@ -58,7 +58,7 @@ console.log(userId)
                 </div>
       ))}
          </div>
-      <FaAngleRight className="icons" onClick={()=>Next(startIndex,setStartIndex,movies,visible)}/>
+      <FaAngleRight className="Icons" onClick={()=>Next(startIndex,setStartIndex,movies,visible)}/>
     </div>
        </div></>)
 }

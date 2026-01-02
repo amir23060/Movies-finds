@@ -1,13 +1,17 @@
 import { useEffect, useRef, useState } from "react";
 import "./search.css";
 import { multiSearch } from "../../pages/movies/api/movie-api";
-
+import { MoviesDetail } from "../../components/detail/moviesDetail";
+import { SeriesDetail } from "../../components/detail/serieDetail";
 export default function Search() {
   const [text, setText] = useState("");
   const [results, setResults] = useState([]);
+  const [itemId ,setItemId]=useState(null);
   const gridRef = useRef(null);
 
   const slicedResults = results.slice(0, 8);
+  console.log(slicedResults.slice(0,1))
+const selectedItem= results.find(e=> e.id === itemId)
 
   useEffect(() => {
     if (!text.trim()) {
@@ -24,6 +28,7 @@ export default function Search() {
       );
 
       setResults(filtered);
+
     };
 
     fetchSearch();
@@ -32,6 +37,7 @@ export default function Search() {
   // close when clicking outside
   useEffect(() => {
     const handleClickOutside = (e) => {
+      if (itemId !== null) return;
       if (gridRef.current && !gridRef.current.contains(e.target)) {
         setText("");
         setResults([]);
@@ -44,6 +50,19 @@ export default function Search() {
 
   return (
     <>
+{itemId !== null && selectedItem && (
+  selectedItem.media_type === "movie" ? (
+    <MoviesDetail
+      id={itemId}
+      onClose={() => setItemId(null)}
+    />
+  ) : (
+    <SeriesDetail
+      id={itemId}
+      onClose={() => setItemId(null)}
+    />
+  )
+)}
       <div className="search-input">
         <input
           value={text}
@@ -57,7 +76,7 @@ export default function Search() {
         <div className="search-container">
           <div className="search-grid" ref={gridRef}>
             {slicedResults.map(item => (
-              <div className="search-card" key={`${item.media_type}-${item.id}`}>
+              <div className="search-card" key={`${item.media_type}-${item.id}`} onClick={()=>setItemId(item.id)}>
                 <img
                   src={
                     item.poster_path

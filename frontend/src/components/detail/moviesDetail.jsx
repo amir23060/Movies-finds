@@ -1,49 +1,74 @@
-import { useParams } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
-import "./detail.css"
+import { FaHeart, FaMinus, FaPlus } from "react-icons/fa";
+import { Like, LikedItems, Watch_list } from "../endPoints";
+import { PopUp } from "../popUp/popUp";
+import "./detail.css";
 import { getMovieDetails } from "../../pages/movies/api/movie-api";
 import { Buttons } from "../../ui/button";
-export function MoviesDetail({id,onClose}){
-    const [movie,setMovies]= useState(null)
-    const detailRef=useRef(null)
-    useEffect(()=>{
-        getMovieDetails(id).then(setMovies)
 
-    },[])
+export function MoviesDetail({ id, onClose, liked = [], setLiked, watchlist = [], setWatchlist }) {
+  const [movie, setMovie] = useState(null);
+  const [text, setText] = useState("");
+  const userId = localStorage.getItem("userId");
+  const detailRef = useRef(null);
+
   useEffect(() => {
-  function handleClickOutside(e) {
-    if (detailRef.current && !detailRef.current.contains(e.target)) {
-      onClose();
-    }
-  }
+    getMovieDetails(id).then(setMovie);
+  }, [id]);
 
-  document.addEventListener("mousedown", handleClickOutside);
-  return () => document.removeEventListener("mousedown", handleClickOutside);
-}, []);
-    console.log(movie)
-    return(<div className="detail">
-    
-    {movie && <div className="detail-container"  ref={detailRef}>
-     
-        <div className="backdrop" >
-        <img src={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`} alt="" />
-        </div>
-        <div className="detail-texts">
+  useEffect(() => {
+    // Only call if setters exist
+    if (userId ) {
+      LikedItems(userId, setLiked, setWatchlist);
+    }
+  }, [userId]);
+
+  return (
+    <div onMouseDown={(e) => e.stopPropagation()} className="detail">
+      {text && <PopUp text={text} />}
+      {movie && (
+        <div className="detail-container" ref={detailRef}>
+          <div className="close" onClick={onClose}>X</div>
+          <div className="backdrop">
+            <img src={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`} alt="" />
+            <div className="icons">
+              <div
+                style={{ color: liked?.some((e) => e.id === movie.id) ? "red" : "" }}
+                onClick={async () => {
+                  await Like(movie, userId, setText);
+                  if (setLiked && setWatchlist) await LikedItems(userId, setLiked, setWatchlist);
+                }}
+              >
+                <FaHeart />
+              </div>
+              <div
+                onClick={async () => {
+                  await Watch_list(movie, userId, setText);
+                  if (setLiked && setWatchlist) await LikedItems(userId, setLiked, setWatchlist);
+                }}
+              >
+                {watchlist?.some((e) => e.id === movie.id) ? <FaMinus /> : <FaPlus />}
+              </div>
+            </div>
+          </div>
+          <div className="detail-texts">
             <div id="title">{movie.title}</div>
-        <div className="detail-info">
-            <p>{movie.vote_average}</p>
-            <p>{new Date(movie.release_date).getFullYear()}</p>
-            <p>{movie.runtime}m</p>
-          <div id="genres"> 
-  {movie.genres?.map((genre) => (
-  <Buttons key={genre.id} color={"black"} backgroundColor={"white"} text={genre.name}></Buttons>
-  ))}
-</div>
+            <div className="detail-info">
+              <p>{movie.vote_average}</p>
+              <p>{new Date(movie.release_date).getFullYear()}</p>
+              <p>{movie.runtime}m</p>
+              <div id="genres">
+                {movie.genres?.map((genre) => (
+                  <Buttons key={genre.id} color="black" backgroundColor="white" text={genre.name} />
+                ))}
+              </div>
+            </div>
+            <p>{movie.overview}</p>
+          </div>
         </div>
-        <p>{movie.overview}</p>
-        </div>
-        </div>}
-    </div>)
+      )}
+    </div>
+  );
 }
 /*
 {adult: false, backdrop_path: '/mplZTqxwomZrEV5XRMUgAALwLzU.jpg', belongs_to_collection: null, budget: 4100000, genres: Array(4), …}

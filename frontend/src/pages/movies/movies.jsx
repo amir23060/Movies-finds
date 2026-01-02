@@ -1,4 +1,4 @@
-import getTrendingMovies, { getPopularMovies, getTopRatedMovies } from "./api/movie-api";
+import getTrendingMovies, { getNowPlayingMovies, getPopularMovies, getTopRatedMovies, getUpcomingMovies } from "./api/movie-api";
 import { MoviesDetail } from "../../components/detail/moviesDetail";
 import {  Slides } from "../../components/slides/slides";
 import "../layout.css"
@@ -14,6 +14,8 @@ export function Movies(){
         <Slides header={"Trending movies"} api={getTrendingMovies} detailPopUp={MoviesDetail}/>
         <Slides header={"Popular movies"} api={getPopularMovies} detailPopUp={MoviesDetail}/>
         <Slides header={"Top rated movies"} api={getTopRatedMovies} detailPopUp={MoviesDetail}/>
+        <Slides header={"Now playing"} api={getNowPlayingMovies} detailPopUp={MoviesDetail}/>
+        <Slides header={"Up coming movies"} api={getUpcomingMovies} detailPopUp={MoviesDetail}/>
     </div>
     </div>)
 

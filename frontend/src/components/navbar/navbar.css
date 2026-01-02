@@ -1,12 +1,12 @@
 .navbar-conatiner{
     display: flex;
     flex-direction: row;
-     padding: 20px;
+    padding-left: 40px;
+    padding-top: 20px;
      gap: 30px;
     position: fixed;
     z-index: 10;
     align-items: center;
-    justify-content: space-between;
     
 }
 .leftSide{
@@ -16,6 +16,7 @@
     flex-direction: row;
     gap: 20px;
 }
+
 .rightSide{
     display: flex;
     align-items: center;
@@ -33,4 +34,13 @@
 }
 .navLinks a:hover{
     text-decoration: underline;
+}
+.logo{
+    font-size: 13px;
+    background-color: white;
+    padding: 7px 5px;
+    border-radius: 5px;
+}
+.logo span{
+    color: red;
 }
